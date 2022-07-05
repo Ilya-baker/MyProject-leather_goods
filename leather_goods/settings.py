@@ -127,3 +127,25 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 AUTH_USER_MODEL = 'authapp.User'
 
 LOGIN_URL = '/users/login/'
+
+DOMAIN_NAME = 'http://localhost:8000'
+
+# EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
+
+# вариант логирования через SMTP-сервер
+# напр. mailtrap
+# EMAIL_HOST = 'smtp.mailtrap.io'
+# EMAIL_HOST_USER = '86e46ae897706b'
+# EMAIL_HOST_PASSWORD = '0223ea01487dd7'
+# EMAIL_PORT = '2525'
+# EMAIL_USE_SSL = False
+# EMAIL_USE_TLS = False
+
+# вариант логирования сообщений внутри консоли
+# python -m smtpd -n -c DebuggingServer localhost:25
+# EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
+
+# вариант логирования сообщений почты в виде файлов, используя встроенный в django mail-backend
+# внутри проекта создаётся папка tmp которая будет хранить файлы сообщений
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = 'leather_goods/tmp/email-messages/'
