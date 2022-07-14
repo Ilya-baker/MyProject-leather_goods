@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+import environ
+env = environ.Env()
+environ.Env.read_env()
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -40,7 +44,16 @@ INSTALLED_APPS = [
     'authapp',
     'basketapp',
     'adminapp',
+
+    'social_django',
 ]
+
+AUTH_USER_MODEL = 'authapp.User'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.vk.VKOAuth2',
+)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -124,22 +137,22 @@ STATICFILES_DIRS = (
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-AUTH_USER_MODEL = 'authapp.User'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '/users/login/'
 
 DOMAIN_NAME = 'http://localhost:8000'
 
-# EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
-
 # вариант логирования через SMTP-сервер
 # напр. mailtrap
-# EMAIL_HOST = 'smtp.mailtrap.io'
-# EMAIL_HOST_USER = '86e46ae897706b'
-# EMAIL_HOST_PASSWORD = '0223ea01487dd7'
-# EMAIL_PORT = '2525'
-# EMAIL_USE_SSL = False
-# EMAIL_USE_TLS = False
+EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = '2525'
+EMAIL_USE_SSL = False
+EMAIL_USE_TLS = False
+
+# EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
 
 # вариант логирования сообщений внутри консоли
 # python -m smtpd -n -c DebuggingServer localhost:25
@@ -149,3 +162,7 @@ DOMAIN_NAME = 'http://localhost:8000'
 # внутри проекта создаётся папка tmp которая будет хранить файлы сообщений
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = 'leather_goods/tmp/email-messages/'
+
+SOCIAL_AUTH_VK_OAUTH2_KEY = env('SOCIAL_AUTH_VK_OAUTH2_KEY')
+SOCIAL_AUTH_VK_OAUTH2_SECRET = env('SOCIAL_AUTH_VK_OAUTH2_SECRET')
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
